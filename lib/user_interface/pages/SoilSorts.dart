@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
 
+import '../../models/Soil.dart';
 import '../components/DrawerMenu.dart';
 
 class SoilSortsPage extends StatefulWidget {
@@ -12,6 +13,9 @@ class SoilSortsPage extends StatefulWidget {
 }
 
 class _SoilSortPageState extends State<SoilSortsPage> {
+  Soil currSoil = Soil(id: 0, type: "Арг", subType: "Арг", genus: "Арг", sort: "Арг", varieties: "Арг", category: "Арг");
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +32,21 @@ class _SoilSortPageState extends State<SoilSortsPage> {
             onTap: () {},
           ),
           Divider(),
+          FutureBuilder<Soil>(
+              future: getValue(),
+              builder: (BuildContext context, AsyncSnapshot<Soil> snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data!.category);
+                }
+                return Text("null");
+              }
+          ),
         ],
       ),
     );
+  }
+  Future<Soil> getValue() async {
+    currSoil.save();
+    return Soil.getSoilById(0);
   }
 }
