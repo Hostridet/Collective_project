@@ -6,6 +6,7 @@ import '../../bloc/soil_sorts/soil_sorts_bloc.dart';
 import '../../models/Soil.dart';
 import '../../repository/SoilRepository.dart';
 import '../components/DrawerMenu.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SoilSortsPage extends StatefulWidget {
   const SoilSortsPage({Key? key}) : super(key: key);
@@ -61,14 +62,28 @@ class _SoilSortPageState extends State<SoilSortsPage> {
                         itemCount: state.soilList.length,
                         padding: EdgeInsets.all(10),
                         itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            elevation: 2,
-                            child: ListTile(
-                              title: Text(state.soilList[index].type),
-                              onTap: () {
-                                BlocProvider.of<SoilSortsBloc>(context)
-                                    .add(SoilDeleteEvent(state.soilList[index]));
-                              },
+                          return Slidable(
+                            endActionPane: ActionPane(
+                              motion: DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed:  (_) {
+                                    BlocProvider.of<SoilSortsBloc>(context)
+                                        .add(SoilDeleteEvent(state.soilList[index]));
+                                  },
+                                  backgroundColor: Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Удалить',
+                                ),
+                              ],
+                            ),
+                            child: Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: Text(state.soilList[index].type),
+                                onTap: () {},
+                              ),
                             ),
                           );
                         },
