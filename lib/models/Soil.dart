@@ -25,6 +25,13 @@ class Soil {
     await prefs.setString('soil + ${id.toString()}', savedString);
   }
 
+  void delete() async {
+    final prefs = await SharedPreferences.getInstance();
+    String savedString = "-1/$type/$subType/"
+        "$genus/$sort/$varieties/$category";
+    await prefs.setString('soil + ${id.toString()}', savedString);
+  }
+
   static Future<Soil> getSoilById(int id) async {
     final prefs = await SharedPreferences.getInstance();
     String? value;
