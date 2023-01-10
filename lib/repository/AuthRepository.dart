@@ -12,6 +12,15 @@ class AuthRepository {
       if (prefs.getString('user${index.toString()}') != null) {
         String user = await prefs.getString('user${index.toString()}')!;
         if (user.split("/")[1] == userName && user.split("/")[2] == password) {
+          prefs.setString("name", user.split("/")[3]);
+          prefs.setString("surname", user.split("/")[4]);
+          prefs.setString("patronymic", user.split("/")[5]);
+          if (userName == "admin") {
+            prefs.setString("role", "admin");
+          }
+          else {
+            prefs.setString("role", "user");
+          }
           isLogin = true;
         }
         index++;
