@@ -9,8 +9,8 @@ class SoilLoadingState extends SoilSortsState {}
 
 class SoilLoadedState extends SoilSortsState {
   final List<Soil> soilList;
-
-  SoilLoadedState(this.soilList);
+  final int count;
+  SoilLoadedState(this.soilList, this.count);
 }
 
 class SoilErrorState extends SoilSortsState {

@@ -3,13 +3,23 @@
 import 'package:collective_project/user_interface/pages/HomePage.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/LoginPage.dart';
+import '../pages/RegistrationPage.dart';
+
 class RouteGenerator {
   Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
 
     switch(settings.name) {
-
       case '/':
+        return CustomPageRoute(
+          builder: (context) => const LoginPage(),
+        );
+      case '/registration':
+        return CustomPageRoute(
+          builder: (context) => const RegistrationPage(),
+        );
+      case '/home':
         return CustomPageRoute(
           builder: (context) => const Home(),
         );
