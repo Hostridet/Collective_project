@@ -1,3 +1,4 @@
+import 'package:collective_project/user_interface/pages/AddZonePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:new_gradient_app_bar/new_gradient_app_bar.dart';
@@ -8,6 +9,8 @@ import '../../repository/SoilRepository.dart';
 import '../components/DrawerMenu.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../components/InputFieldWidget.dart';
+
 class SoilSortsPage extends StatefulWidget {
   const SoilSortsPage({Key? key}) : super(key: key);
 
@@ -16,6 +19,31 @@ class SoilSortsPage extends StatefulWidget {
 }
 
 class _SoilSortPageState extends State<SoilSortsPage> {
+
+  late FocusNode zoneFocus;
+  late FocusNode soilsFocus;
+  late TextEditingController zone;
+  late TextEditingController soils;
+
+  @override
+  void initState() {
+    super.initState();
+    zoneFocus = FocusNode();
+    soilsFocus = FocusNode();
+    zone = TextEditingController();
+    soils = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    zoneFocus.dispose();
+    soilsFocus.dispose();
+    zone.dispose();
+    soils.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
@@ -38,6 +66,46 @@ class _SoilSortPageState extends State<SoilSortsPage> {
               if (state is SoilLoadedState) {
                 return Column(
                   children: [
+                    Expanded(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: state.soilList.length,
+                        padding: EdgeInsets.all(10),
+                        itemBuilder: (BuildContext context, int index) {
+                          return Slidable(
+                            endActionPane: ActionPane(
+                              motion: DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                  onPressed:  (_) {
+                                    BlocProvider.of<SoilSortsBloc>(context)
+                                        .add(SoilDeleteEvent(state.soilList[index]));
+                                  },
+                                  backgroundColor: Color(0xFFFE4A49),
+                                  foregroundColor: Colors.white,
+                                  icon: Icons.delete,
+                                  label: 'Удалить',
+                                ),
+                              ],
+                            ),
+                            child: Card(
+                              elevation: 2,
+                              child: ListTile(
+                                title: Text(state.soilList[index].type),
+                                subtitle: Text("Типы почв: ${state.soilList[index].subType}"),
+                                onTap: () {},
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                );
+              }
+              if (state is SoilLoadedAdminState) {
+                return Column(
+                  children: [
                     Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: Card(
@@ -46,10 +114,14 @@ class _SoilSortPageState extends State<SoilSortsPage> {
                           subtitle: Text("Добавить зональность"),
                           leading: Icon(Icons.add),
                           onTap: () {
-                            Soil currSoil = Soil(id: state.count, type: "Тундра", subType: "Тундровые");
-                            currSoil.save();
-                            BlocProvider.of<SoilSortsBloc>(context)
-                                .add(SoilGetEvent());
+                            Navigator.pushReplacement(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder: (context, animation1, animation2) =>AddZonePage(index: state.count),
+                                transitionDuration: Duration.zero,
+                                reverseTransitionDuration: Duration.zero,
+                              ),
+                            );
                           },
                         ),
                       ),
@@ -60,7 +132,7 @@ class _SoilSortPageState extends State<SoilSortsPage> {
                           shrinkWrap: true,
                           itemCount: state.soilList.length,
                           padding: EdgeInsets.all(10),
-                          itemBuilder: (BuildContext context, int index) {
+                          itemBuilder: (BuildContext context, int index, ) {
                             return Slidable(
                               endActionPane: ActionPane(
                                 motion: DrawerMotion(),
@@ -82,7 +154,9 @@ class _SoilSortPageState extends State<SoilSortsPage> {
                                 child: ListTile(
                                   title: Text(state.soilList[index].type),
                                   subtitle: Text("Типы почв: ${state.soilList[index].subType}"),
-                                  onTap: () {},
+                                  onTap: () {
+                                    showAlertDialog(context, state.soilList[index].type, state.soilList[index].subType);
+                                  },
                                 ),
                               ),
                             );
@@ -100,4 +174,33 @@ class _SoilSortPageState extends State<SoilSortsPage> {
       ),
     );
   }
+  showAlertDialog(BuildContext context, String curZone, String curSoils) {
+
+    // set up the button
+
+    Widget closeButton = TextButton(
+      child: Text("Закрыть"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(curZone),
+      content: Text(curSoils),
+      actions: [
+        closeButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
 }

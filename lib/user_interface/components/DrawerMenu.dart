@@ -37,14 +37,14 @@ class _DrawerMenuState extends State<DrawerMenu> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        Text(state.name,
+                        Text(state.surname,
                             style: TextStyle(color: Colors.white, fontSize: 16)),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(state.surname,
+                            Text(state.name,
                                 style: TextStyle(color: Colors.white, fontSize: 16)),
-                            SizedBox(width: 10),
+                            SizedBox(width: 5),
                             Text(state.patronymic,
                                 style: TextStyle(color: Colors.white, fontSize: 16)),
                           ],
