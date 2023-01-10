@@ -1,6 +1,7 @@
 
 
 import 'package:collective_project/user_interface/pages/HomePage.dart';
+import 'package:collective_project/user_interface/pages/SettingsPage.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/LoginPage.dart';
@@ -18,6 +19,10 @@ class RouteGenerator {
       case '/registration':
         return CustomPageRoute(
           builder: (context) => const RegistrationPage(),
+        );
+      case '/home/settings':
+        return CustomPageRoute(
+          builder: (context) => SettingsPage(),
         );
       case '/home':
         return CustomPageRoute(

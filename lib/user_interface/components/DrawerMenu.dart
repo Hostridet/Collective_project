@@ -69,7 +69,10 @@ class _DrawerMenuState extends State<DrawerMenu> {
                     ),
                     title: Text("Настройки"),
                     subtitle: Text("Настройки приложения"),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed('/home/settings');
+                    },
                   ),
                   Divider(),
                   ListTile(
