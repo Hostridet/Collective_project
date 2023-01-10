@@ -109,7 +109,14 @@ class _LoginPageState extends State<LoginPage> {
           userName: userName,
           password: password,
         ),
-        SizedBox(height: 25),
+        SizedBox(height: 5),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .pushReplacementNamed('/registration');
+            },
+            child: Text("Зарегистрироваться"),
+        ),
       ],
     ),
   );

@@ -22,7 +22,8 @@ class User {
   void save() async {
     final prefs = await SharedPreferences.getInstance();
     String savedString = "${id.toString()}/$login/$password/$name/$surname/$patronymic/$email";
-    await prefs.setString('user + ${getId()}', savedString);
+    int user = await getId();
+    await prefs.setString('user$user', savedString);
   }
 
   static Future<int> getId() async {
@@ -30,11 +31,11 @@ class User {
     int index = 0;
     bool flag = false;
     while (flag == false) {
-      if (prefs.getString('user + ${index.toString()}') != null) {
+      if (prefs.getString('user${index.toString()}') != null) {
         index++;
       }
       else {
-        flag = false;
+        flag = true;
       }
     }
     return index;
