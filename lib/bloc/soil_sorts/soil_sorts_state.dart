@@ -13,6 +13,13 @@ class SoilLoadedState extends SoilSortsState {
   SoilLoadedState(this.soilList, this.count);
 }
 
+class SoilLoadedAdminState extends SoilSortsState {
+  final List<Soil> soilList;
+  final int count;
+
+  SoilLoadedAdminState(this.soilList, this.count);
+}
+
 class SoilErrorState extends SoilSortsState {
   final String error;
 
