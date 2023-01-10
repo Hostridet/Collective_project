@@ -16,7 +16,7 @@ class SoilSortsBloc extends Bloc<SoilSortsEvent, SoilSortsState> {
       emit(SoilLoadingState());
       List<Soil> soilList = await _soilRepository.getAllSoils();
       soilList != []
-          ? emit(SoilLoadedState(soilList))
+          ? emit(SoilLoadedState(soilList, await _soilRepository.getCount()))
           : emit(SoilErrorState("Список почв пуст"));
     });
     on<SoilDeleteEvent>((event, emit) async {

@@ -26,4 +26,20 @@ class SoilRepository {
   Future<void> deleteSoil(Soil soil) async {
     return soil.delete();
   }
+
+  Future<int> getCount() async {
+    int index = 0;
+    bool flag = false;
+    while(flag == false) {
+      Soil curSoil = await Soil.getSoilById(index);
+      if (curSoil.type == "null") {
+        flag = true;
+      }
+      else {
+        index++;
+      }
+    }
+    return index;
+  }
+
 }

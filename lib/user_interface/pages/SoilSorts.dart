@@ -16,7 +16,6 @@ class SoilSortsPage extends StatefulWidget {
 }
 
 class _SoilSortPageState extends State<SoilSortsPage> {
-
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
@@ -28,7 +27,7 @@ class _SoilSortPageState extends State<SoilSortsPage> {
         child: Scaffold(
           drawer: DrawerMenu(),
           appBar: NewGradientAppBar(
-            title: const Text('Виды почв'),
+            title: const Text('Зональность'),
             gradient: const LinearGradient(colors: [Color(0xff228B22), Color(0xff008000), Color(0xff006400)]),
           ),
           body: BlocBuilder<SoilSortsBloc, SoilSortsState>(
@@ -44,11 +43,10 @@ class _SoilSortPageState extends State<SoilSortsPage> {
                       child: Card(
                         child: ListTile(
                           title: Text("Добавить"),
-                          subtitle: Text("Добавить новый вид почвы"),
+                          subtitle: Text("Добавить зональность"),
                           leading: Icon(Icons.add),
                           onTap: () {
-                            Soil currSoil = Soil(id: 0, type: "Арг", subType: "Арг", genus: "Арг", sort: "Арг",
-                                varieties: "Арг", category: "Арг");
+                            Soil currSoil = Soil(id: state.count, type: "Тундра", subType: "Тундровые");
                             currSoil.save();
                             BlocProvider.of<SoilSortsBloc>(context)
                                 .add(SoilGetEvent());
@@ -57,36 +55,39 @@ class _SoilSortPageState extends State<SoilSortsPage> {
                       ),
                     ),
                     const Divider(),
-                    ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: state.soilList.length,
-                        padding: EdgeInsets.all(10),
-                        itemBuilder: (BuildContext context, int index) {
-                          return Slidable(
-                            endActionPane: ActionPane(
-                              motion: DrawerMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed:  (_) {
-                                    BlocProvider.of<SoilSortsBloc>(context)
-                                        .add(SoilDeleteEvent(state.soilList[index]));
-                                  },
-                                  backgroundColor: Color(0xFFFE4A49),
-                                  foregroundColor: Colors.white,
-                                  icon: Icons.delete,
-                                  label: 'Удалить',
-                                ),
-                              ],
-                            ),
-                            child: Card(
-                              elevation: 2,
-                              child: ListTile(
-                                title: Text(state.soilList[index].type),
-                                onTap: () {},
+                    Expanded(
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: state.soilList.length,
+                          padding: EdgeInsets.all(10),
+                          itemBuilder: (BuildContext context, int index) {
+                            return Slidable(
+                              endActionPane: ActionPane(
+                                motion: DrawerMotion(),
+                                children: [
+                                  SlidableAction(
+                                    onPressed:  (_) {
+                                      BlocProvider.of<SoilSortsBloc>(context)
+                                          .add(SoilDeleteEvent(state.soilList[index]));
+                                    },
+                                    backgroundColor: Color(0xFFFE4A49),
+                                    foregroundColor: Colors.white,
+                                    icon: Icons.delete,
+                                    label: 'Удалить',
+                                  ),
+                                ],
                               ),
-                            ),
-                          );
-                        },
+                              child: Card(
+                                elevation: 2,
+                                child: ListTile(
+                                  title: Text(state.soilList[index].type),
+                                  subtitle: Text("Типы почв: ${state.soilList[index].subType}"),
+                                  onTap: () {},
+                                ),
+                              ),
+                            );
+                          },
+                      ),
                     ),
                   ],
                 );
