@@ -66,6 +66,7 @@ class _SoilSortPageState extends State<SoilSortsPage> {
               if (state is SoilLoadedState) {
                 return Column(
                   children: [
+                    SizedBox(height: 10),
                     Expanded(
                       child: ListView.builder(
                         shrinkWrap: true,
@@ -106,6 +107,7 @@ class _SoilSortPageState extends State<SoilSortsPage> {
               if (state is SoilLoadedAdminState) {
                 return Column(
                   children: [
+                    SizedBox(height: 10),
                     Padding(
                       padding: EdgeInsets.only(left: 10, right: 10),
                       child: Card(
