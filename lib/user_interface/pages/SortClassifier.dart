@@ -38,21 +38,26 @@ class _SortClassifierPageState extends State<SortClassifierPage> {
             child: BlocBuilder<ClassifierBloc, ClassifierState>(
               builder: (context, state) {
                 if (state is ClassifierLoadedState) {
-                  currSoil = state.soilList[0];
-                  List<String> typeList = [];
-                  for (Soil item in state.soilList) {
-                    typeList.add(item.type);
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          InputWidget(soil: state.soilList),
-                        ],
+                  if (state.soilList.isNotEmpty) {
+                    currSoil = state.soilList[0];
+                    List<String> typeList = [];
+                    for (Soil item in state.soilList) {
+                      typeList.add(item.type);
+                    }
+                    return Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            InputWidget(soil: state.soilList),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  }
+                  else {
+                    return Align(alignment: Alignment.center, child: Text("Необхимо добавить зональность"));
+                  }
                 }
                 return Container();
               },
