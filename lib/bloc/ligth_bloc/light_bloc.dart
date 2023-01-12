@@ -12,13 +12,12 @@ class LightBloc extends Bloc<LightEvent, LightState> {
       final prefs = await SharedPreferences.getInstance();
       int intLight = 0;
       bool light;
-      prefs.getInt("mode") == null ? light = true : intLight = prefs.getInt("mode")!;
-      if (intLight == 1) {
-        light = true;
-      }
-      else {
-        light = false;
-      }
+      prefs.getInt("mode") == null
+          ? light = true
+          : intLight = prefs.getInt("mode")!;
+      (intLight == 1)
+          ? light = true
+          : light = false;
       emit(LightLoadedState(light));
     });
   }

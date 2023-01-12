@@ -102,10 +102,15 @@ class _AddZonePageState extends State<AddZonePage> {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: () {
-                    Soil currSoil = Soil(id: widget.index, type: zone.text, subType: soils.text);
-                    currSoil.save();
-                    Navigator.of(context)
-                        .pushReplacementNamed('/home');
+                    Soil currSoil;
+                    if (zone.text.isNotEmpty && soils.text.isNotEmpty) {
+                      Soil currSoil = Soil(id: widget.index, type: zone.text, subType: soils.text);
+                      currSoil.save();
+                      Navigator.of(context)
+                          .pushReplacementNamed('/home');
+                    } else {
+                      buildErrorLayout("Все поля должны быть заполнены");
+                    }
                   },
                   child: Text("Добавить"),
                   style: ElevatedButton.styleFrom(
@@ -119,4 +124,10 @@ class _AddZonePageState extends State<AddZonePage> {
       ),
     );
   }
+  ScaffoldFeatureController buildErrorLayout(String text) =>
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(text),
+        ),
+      );
 }
